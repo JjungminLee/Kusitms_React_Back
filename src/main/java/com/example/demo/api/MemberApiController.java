@@ -32,6 +32,11 @@ public class MemberApiController {
         return new CreateMemberResponse(id);
 
     }
+    @PostMapping("/member/log-in")
+    public LoginMemberResponse loginMember(@RequestBody LoginMemberRequest request){
+        Long loginMemberId=memberService.loginMember(request.getEmail(),request.getPassword());
+        return new LoginMemberResponse(loginMemberId);
+    }
 
     @Data
     @AllArgsConstructor
@@ -51,5 +56,21 @@ public class MemberApiController {
         private String password;
 
     }
+
+    @Data
+    @AllArgsConstructor
+    public static class LoginMemberRequest{
+
+        private String email;
+        private String password;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class LoginMemberResponse{
+
+        private Long id;
+    }
+
 
 }

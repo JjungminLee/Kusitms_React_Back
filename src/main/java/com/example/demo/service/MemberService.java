@@ -44,7 +44,16 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    
+    //로그인할 때 회원 조회
+    @Transactional(readOnly = true)
+    public Long loginMember(String email,String password){
 
+        List<Member>loginMember= memberRepository.loginMember(email,password);
+        return loginMember.get(0).getId();
+
+
+    }
 
     //회원 단건 조회
     @Transactional(readOnly = true)
