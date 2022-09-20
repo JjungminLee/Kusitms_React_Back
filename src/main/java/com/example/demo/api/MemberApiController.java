@@ -58,7 +58,6 @@ public class MemberApiController {
     }
 
     @Data
-    @AllArgsConstructor
     public static class LoginMemberRequest{
 
         private String email;

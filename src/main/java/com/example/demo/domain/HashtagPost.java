@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Table(name="HashtagPost")
 public class HashtagPost {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     //하나의 article은 여러개 해시태그post 할 수 있음
