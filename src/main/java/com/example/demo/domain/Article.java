@@ -6,11 +6,12 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name="Article")
@@ -25,15 +26,15 @@ public class Article {
     @Column(name="article_id")
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch= LAZY)
     @JoinColumn(name="uploader_id")
-    private Member member;
+    private UserInfo member;
 
 
     private String articleTitle;
 
     @Lob
-    @Column(length=200000)
+    @Basic(fetch=LAZY)
     private String articleText;
 
     @OneToMany(mappedBy = "article")
