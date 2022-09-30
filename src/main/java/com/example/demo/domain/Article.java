@@ -1,11 +1,11 @@
 package com.example.demo.domain;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import java.util.List;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 @Table(name="Article")
 @Getter
 @Setter
@@ -26,20 +27,21 @@ public class Article {
     @Column(name="article_id")
     private Long id;
 
-    @ManyToOne(fetch= LAZY)
+    @ManyToOne(targetEntity = UserInfo.class ,fetch= LAZY)
     @JoinColumn(name="uploader_id")
     private UserInfo member;
 
 
+
     private String articleTitle;
+
 
     @Lob
     @Basic(fetch=LAZY)
     private String articleText;
 
-    @OneToMany(mappedBy = "article")
-    private List<HashtagPost> hashtagPost =new ArrayList<>();
-    @Column(columnDefinition = "TIMESTAMP")
+
+    @Column(name="created",columnDefinition = "TIMESTAMP" )
     private LocalDateTime created;
 
 
@@ -48,6 +50,11 @@ public class Article {
     @ColumnDefault("'A'")
     private String status;
 
+    @Builder
+    public Article(UserInfo member, String articleTitle, String articleText) {
+        this.member=member;
+        this.articleTitle=articleTitle;
+        this.articleText=articleText;
 
-
+    }
 }

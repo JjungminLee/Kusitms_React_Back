@@ -1,8 +1,12 @@
 package com.example.demo.service;
 
 
+import com.example.demo.api.ArticleApiController;
 import com.example.demo.domain.Article;
+import com.example.demo.domain.UserInfo;
+import com.example.demo.dto.PostArticleDto;
 import com.example.demo.repository.ArticleRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,15 +14,33 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ArticleService {
 
+
     @Autowired
-    ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
 
-    @Transactional
-    public Long save(Article article){
+    @Autowired
+    private final UserRepository userRepository;
+
+    public ArticleService(ArticleRepository articleRepository, UserRepository userRepository) {
+        this.articleRepository = articleRepository;
+        this.userRepository = userRepository;
+    }
 
 
-        articleRepository.save(article);
-        return article.getId();
+    public Long save(PostArticleDto postArticleDto){
+
+
+        UserInfo user=userRepository.getReferenceById(postArticleDto.getUploaderId());
+        Article article=new Article(user,postArticleDto.getArticleTitle(),postArticleDto.getArticleText());
+
+
+        Long id=articleRepository.saveAndFlush(article).getId();
+        return id;
+
+
+
+
 
     }
+
 }

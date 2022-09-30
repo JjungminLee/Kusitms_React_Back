@@ -40,6 +40,7 @@ public class UserController {
         UserInfo user=userRepository.findByEmail(userInfoDto.getEmail());
         Long id=user.getId();
         String jwt=jwtTokenProvider.createToken(user.getId(),user.getRoles());
+        System.out.println(jwt);
         CreateUserRes createUserRes=new CreateUserRes(id,jwt);
         return new BaseResponse<>(createUserRes);
 
@@ -48,7 +49,9 @@ public class UserController {
     
     //swr get요청위함
     @GetMapping("/user")
-    public BaseResponse<SwrUserRes>userInfo()throws BaseException {
+    public BaseResponse<SwrUserRes>userInfo(HttpServletRequest httpServletRequest)throws BaseException {
+
+
 
         String userJwt= jwtTokenProvider.getUserPk(jwtTokenProvider.getJwt()); //id값이 string으롷
         System.out.println(userJwt);
