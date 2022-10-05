@@ -4,6 +4,7 @@ package com.example.demo.domain;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @SuperBuilder
+@DynamicInsert
 public class UserInfo implements  UserDetails{
 
     //jpa에서 동적으로 객체 생성할 떄 Reflection API를 이용하는데 기본생성자가 없으면 못 만들어..
@@ -60,9 +62,9 @@ public class UserInfo implements  UserDetails{
     @OneToMany(mappedBy = "member")
     private List<Article> articles=new ArrayList<>();
 
-    @Column(name="created",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name="created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp created;
-    @Column(name="updated",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name="updated",nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp updated;
     @ColumnDefault("'A'")
     private String status;

@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
 
-import com.example.demo.api.ArticleApiController;
 import com.example.demo.domain.Article;
 import com.example.demo.domain.UserInfo;
+import com.example.demo.dto.GetArticleDto;
 import com.example.demo.dto.PostArticleDto;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.UserRepository;
@@ -11,7 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
+@Transactional
+
 public class ArticleService {
 
 
@@ -41,6 +46,14 @@ public class ArticleService {
 
 
 
+    }
+
+    public List<GetArticleDto> findAll(){
+
+
+
+        return articleRepository.findAll().stream()
+                .map(GetArticleDto::getArticle).collect(Collectors.toList());
     }
 
 }

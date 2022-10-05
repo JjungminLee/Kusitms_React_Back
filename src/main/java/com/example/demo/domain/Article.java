@@ -3,6 +3,8 @@ package com.example.demo.domain;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -18,6 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name="Article")
 @Getter
 @Setter
+@DynamicInsert
 public class Article {
 
 
@@ -41,12 +44,14 @@ public class Article {
     private String articleText;
 
 
-    @Column(name="created",columnDefinition = "TIMESTAMP" )
-    private LocalDateTime created;
+    @Column(name="created", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
+    private Timestamp created;
 
 
-    @Column(name="updated",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name="updated", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp updated;
+
     @ColumnDefault("'A'")
     private String status;
 

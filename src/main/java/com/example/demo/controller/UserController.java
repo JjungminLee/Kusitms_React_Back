@@ -1,4 +1,4 @@
-package com.example.demo.api;
+package com.example.demo.controller;
 
 
 import com.example.demo.domain.UserInfo;
@@ -9,10 +9,8 @@ import com.example.demo.dto.response.BaseResponse;
 import com.example.demo.jwt.JwtTokenProvider;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
-import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -47,10 +44,12 @@ public class UserController {
 
     }
     
-    //swr get요청위함
+    //react-query get요청위함
     @GetMapping("/user")
     public BaseResponse<SwrUserRes>userInfo(HttpServletRequest httpServletRequest)throws BaseException {
 
+        System.out.println(httpServletRequest.getMethod());
+        System.out.println(httpServletRequest.getHeader("X-ACCESS-TOKEN"));
 
 
         String userJwt= jwtTokenProvider.getUserPk(jwtTokenProvider.getJwt()); //id값이 string으롷
@@ -70,6 +69,8 @@ public class UserController {
 
     @PostMapping("/login")
     public BaseResponse<LoginUserRes> logIn(@RequestBody LoginDto loginDto){
+
+        //email에 해당하는 유저가 있는지 확인
         UserInfo user=userRepository.findByEmail(loginDto.getEmail());
         Long id=user.getId();
         String name=user.getName();
