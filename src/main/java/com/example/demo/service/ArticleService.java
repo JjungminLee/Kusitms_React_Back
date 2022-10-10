@@ -56,4 +56,13 @@ public class ArticleService {
                 .map(GetArticleDto::getArticle).collect(Collectors.toList());
     }
 
+    public GetArticleDto findOne(Long id){
+
+        Article article=articleRepository.getReferenceById(id);
+
+        return new GetArticleDto(article.getId(),article.getMember().getId(),article.getMember().getName(),
+                article.getArticleTitle(),article.getArticleText());
+
+    }
+
 }

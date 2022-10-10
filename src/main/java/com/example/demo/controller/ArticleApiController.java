@@ -11,10 +11,7 @@ import com.example.demo.service.ArticleService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,15 +38,33 @@ public class ArticleApiController {
         return new BaseResponse<>(postArticleRes);
 
     }
-
+    
+    
+    // 모든 글 조회
     @GetMapping("/article")
-    public BaseResponse<List<GetArticleDto>>GetArticleList(){
+    public BaseResponse<List<GetArticleDto>>getArticleList(){
 
         List<GetArticleDto> articleList=articleService.findAll();
         return new BaseResponse<>(articleList);
 
 
     }
+
+    @GetMapping("/article/{articleId}")
+    // 글 하나만 조회 (id값이 parameter)
+
+    public BaseResponse<GetArticleDto>getOneArticle(@PathVariable("articleId") Long articleId){
+        System.out.println(articleId);
+
+        GetArticleDto getOneArticle=articleService.findOne(articleId);
+
+        System.out.println(getOneArticle.getArticleTitle());
+        return new BaseResponse<>(getOneArticle);
+
+    }
+
+
+
 
 
 

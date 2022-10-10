@@ -17,7 +17,7 @@ public class GetArticleDto {
     String articleText;
 
 
-    //정적 팩토리메서드(생성자 너낌??)
+    // 빌더 패턴
     public static GetArticleDto getArticle(Article article){
 
         return GetArticleDto.builder()

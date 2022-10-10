@@ -15,4 +15,6 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
     Article getReferenceById(Long id);
 
     List<Article> findAll();
+
+
 }
