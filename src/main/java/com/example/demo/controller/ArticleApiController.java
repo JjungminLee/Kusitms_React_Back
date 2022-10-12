@@ -5,6 +5,7 @@ import com.example.demo.dto.GetArticleDto;
 import com.example.demo.dto.PostArticleDto;
 import com.example.demo.dto.response.BaseResponse;
 import com.example.demo.jwt.JwtTokenProvider;
+import com.example.demo.repository.ArticleRealRepository;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ArticleService;
@@ -21,6 +22,7 @@ import java.util.List;
 public class ArticleApiController {
 
     private final ArticleRepository articleRepository;
+    private final ArticleRealRepository articleRealRepository;
     private final ArticleService articleService;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
@@ -49,6 +51,8 @@ public class ArticleApiController {
 
 
     }
+
+
 
     @GetMapping("/article/{articleId}")
     // 글 하나만 조회 (id값이 parameter)

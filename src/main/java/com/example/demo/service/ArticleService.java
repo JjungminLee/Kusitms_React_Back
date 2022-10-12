@@ -5,6 +5,7 @@ import com.example.demo.domain.Article;
 import com.example.demo.domain.UserInfo;
 import com.example.demo.dto.GetArticleDto;
 import com.example.demo.dto.PostArticleDto;
+import com.example.demo.repository.ArticleRealRepository;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,14 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @Autowired
+    private  final ArticleRealRepository articleRealRepository;
+
+    @Autowired
     private final UserRepository userRepository;
 
-    public ArticleService(ArticleRepository articleRepository, UserRepository userRepository) {
+    public ArticleService(ArticleRepository articleRepository, ArticleRealRepository articleRealRepository, UserRepository userRepository) {
         this.articleRepository = articleRepository;
+        this.articleRealRepository = articleRealRepository;
         this.userRepository = userRepository;
     }
 
@@ -52,7 +57,7 @@ public class ArticleService {
 
 
 
-        return articleRepository.findAll().stream()
+        return articleRealRepository.findAllWithArticleMember().stream()
                 .map(GetArticleDto::getArticle).collect(Collectors.toList());
     }
 
